@@ -2,7 +2,10 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-fetch('/api/test').then(data => data.text()).then(data => console.log(data));  // TODO: remove
+fetch('/api/login', {
+  method: 'post',
+  body: JSON.stringify({cc: 'asdf'})
+}).then(data => data.json()).then(data => console.log(data));  // TODO: remove
 
 function App() {
   return (
