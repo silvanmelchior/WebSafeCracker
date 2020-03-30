@@ -10,7 +10,7 @@ class Setting(models.Model):
         return self.key
 
 
-class User(models.Model):
+class Competitor(models.Model):
     full_name = models.CharField(max_length=200)
     competitor_id = models.IntegerField()                               # SwissMem id
     competitor_code = models.CharField(max_length=200, unique=True)     # login code
