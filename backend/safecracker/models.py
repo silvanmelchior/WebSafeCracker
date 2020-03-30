@@ -5,6 +5,7 @@ class Setting(models.Model):
     key = models.CharField(max_length=200, unique=True)
     value_str = models.CharField(max_length=200, blank=True)
     value_int = models.IntegerField(blank=True, null=True)
+    value_dec = models.DecimalField(max_digits=5, decimal_places=1, blank=True, null=True)
 
     def __str__(self):
         return self.key
@@ -26,6 +27,7 @@ class Task(models.Model):
     enabled = models.BooleanField()
     title = models.CharField(max_length=200)
     description = models.TextField()
+    points = models.DecimalField(max_digits=5, decimal_places=1)
     code = models.CharField(max_length=100)
 
     def __str__(self):

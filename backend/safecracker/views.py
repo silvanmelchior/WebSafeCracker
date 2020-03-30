@@ -1,4 +1,5 @@
 import json
+import decimal
 import datetime
 from django.http import HttpResponse
 from django.utils import timezone
@@ -94,16 +95,22 @@ def _get_task_state(task, competitor):
 def task_list(request):
     competitor = _get_competitor_get(request)
     tasks = Task.objects.filter(enabled=True).order_by('nr')
-    response = []
+    fail_penalty = Setting.objects.get(key='fail_penalty').value_dec
+    tasks_list = []
+    points = decimal.Decimal(0)
     for task in tasks:
         state = _get_task_state(task, competitor)
-        response.append({
+        if state == 'solved':
+            points += task.points
+        elif state == 'blocked':
+            points -= fail_penalty
+        tasks_list.append({
             'pk': task.pk,
             'nr': task.nr,
             'title': task.title,
             'state': state
         })
-    return HttpResponse(json.dumps(response))
+    return HttpResponse(json.dumps({'tasks': tasks_list, 'points': float(points)}))
 
 
 def task_get(request, task_id):
