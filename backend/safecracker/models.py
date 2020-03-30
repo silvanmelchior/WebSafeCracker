@@ -30,3 +30,13 @@ class Task(models.Model):
 
     def __str__(self):
         return str(self.nr) + ': ' + str(self.title)
+
+
+class Answer(models.Model):
+    competitor = models.ForeignKey(Competitor, on_delete=models.PROTECT)
+    task = models.ForeignKey(Task, on_delete=models.PROTECT)
+    code = models.CharField(max_length=100)
+    time = models.DateTimeField()
+
+    def __str__(self):
+        return str(self.competitor) + ': ' + str(self.code)

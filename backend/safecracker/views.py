@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import PermissionDenied
-from .models import Competitor, Setting, Task
+from .models import Competitor, Setting, Task, Answer
 
 
 def _authenticate(cc):
@@ -79,25 +79,55 @@ def _get_competitor_post(request):
     raise PermissionDenied
 
 
+def _get_task_state(task, competitor):
+    answers = task.answer_set.filter(competitor=competitor).order_by('time')
+    if len(answers) == 0:
+        return 'open'
+    last_answer = list(answers)[-1]
+    if last_answer.code == task.code:
+        return 'solved'
+    if len(answers) == 1:
+        return 'second chance'
+    return 'blocked'
+
+
 def task_list(request):
-    _get_competitor_get(request)
+    competitor = _get_competitor_get(request)
     tasks = Task.objects.filter(enabled=True).order_by('nr')
     response = []
     for task in tasks:
+        state = _get_task_state(task, competitor)
         response.append({
             'pk': task.pk,
             'nr': task.nr,
-            'title': task.title
+            'title': task.title,
+            'state': state
         })
     return HttpResponse(json.dumps(response))
 
 
 def task_get(request, task_id):
-    _get_competitor_get(request)
+    competitor = _get_competitor_get(request)
     task = get_object_or_404(Task, pk=task_id, enabled=True)
+    state = _get_task_state(task, competitor)
     response = {
         'nr': task.nr,
         'title': task.title,
-        'description': task.description
+        'description': task.description,
+        'state': state
     }
     return HttpResponse(json.dumps(response))
+
+
+def task_enter_code(request, task_id):
+    competitor = _get_competitor_post(request)
+    task = get_object_or_404(Task, pk=task_id, enabled=True)
+    state = _get_task_state(task, competitor)
+    if state == 'solved':
+        return HttpResponse('already solved')
+    if state == 'blocked':
+        return HttpResponse('already blocked')
+    req = json.loads(request.body.decode('utf-8'))
+    task.answer_set.create(competitor=competitor, code=req['code'], time=timezone.now())
+    state = _get_task_state(task, competitor)
+    return HttpResponse(state)
