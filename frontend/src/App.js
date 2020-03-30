@@ -1,11 +1,10 @@
 import React from 'react';
+import axios from 'axios';
 import logo from './logo.svg';
 import './App.css';
 
-fetch('/api/login', {
-  method: 'post',
-  body: JSON.stringify({cc: 'asdf'})
-}).then(data => data.json()).then(data => console.log(data));  // TODO: remove
+
+axios.post('/api/login', {cc: 'asdf'}).then(response => console.log(response.data)); // TODO: remove
 
 function App() {
   return (
