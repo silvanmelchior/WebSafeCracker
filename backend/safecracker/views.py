@@ -2,10 +2,12 @@ import json
 import datetime
 from django.http import HttpResponse
 from django.utils import timezone
-from .models import Competitor, Setting
+from django.shortcuts import get_object_or_404
+from django.core.exceptions import PermissionDenied
+from .models import Competitor, Setting, Task
 
 
-def authenticate(cc):
+def _authenticate(cc):
     competitors = Competitor.objects.filter(competitor_code=cc)
     if len(competitors) == 0:
         return {'status': 'invalid code'}
@@ -34,13 +36,16 @@ def authenticate(cc):
 
 def login(request):
     if request.method == 'POST':
-        req = json.loads(request.body.decode('utf-8'))
-        auth = authenticate(req['cc'])
+        try:
+            req = json.loads(request.body.decode('utf-8'))
+        except json.decoder.JSONDecodeError:
+            return HttpResponse('invalid request')
+        auth = _authenticate(req['cc'])
         if auth['status'] == 'ok':
             if auth['competitor'].login_time is None:
                 auth['competitor'].login_time = timezone.now()
                 auth['competitor'].save()
-                auth = authenticate(req['cc'])
+                auth = _authenticate(req['cc'])
             return HttpResponse(json.dumps({
                 'status': auth['status'],
                 'name': auth['competitor'].full_name,
@@ -48,3 +53,51 @@ def login(request):
             }))
         else:
             return HttpResponse(json.dumps({'status': auth['status']}))
+    else:
+        return HttpResponse('invalid request')
+
+
+def _get_competitor_get(request):
+    if request.method == 'GET':
+        if 'cc' in request.GET:
+            auth = _authenticate(request.GET['cc'])
+            if auth['status'] == 'ok':
+                return auth['competitor']
+    raise PermissionDenied
+
+
+def _get_competitor_post(request):
+    if request.method == 'POST':
+        try:
+            req = json.loads(request.body.decode('utf-8'))
+        except json.decoder.JSONDecodeError:
+            raise PermissionDenied
+        if 'cc' in req:
+            auth = _authenticate(req['cc'])
+            if auth['status'] == 'ok':
+                return auth['competitor']
+    raise PermissionDenied
+
+
+def task_list(request):
+    _get_competitor_get(request)
+    tasks = Task.objects.filter(enabled=True).order_by('nr')
+    response = []
+    for task in tasks:
+        response.append({
+            'pk': task.pk,
+            'nr': task.nr,
+            'title': task.title
+        })
+    return HttpResponse(json.dumps(response))
+
+
+def task_get(request, task_id):
+    _get_competitor_get(request)
+    task = get_object_or_404(Task, pk=task_id, enabled=True)
+    response = {
+        'nr': task.nr,
+        'title': task.title,
+        'description': task.description
+    }
+    return HttpResponse(json.dumps(response))

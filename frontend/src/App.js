@@ -4,7 +4,8 @@ import logo from './logo.svg';
 import './App.css';
 
 
-axios.post('/api/login', {cc: 'asdf'}).then(response => console.log(response.data)); // TODO: remove
+//axios.post('/api/login', {cc: 'asdf'}).then(response => console.log(response.data));
+axios.get('/api/task/1', {params: {cc: 'asdf'}}).then(response => console.log(response.data));
 
 function App() {
   return (
