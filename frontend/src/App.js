@@ -81,7 +81,3 @@ class App extends React.Component {
 }
 
 export default App;
-
-// Examples:
-// axios.post('/api/task/1/enter_code', {cc: 'asdf', code: 111}).then(response => console.log(response.data));
-// axios.get('/api/task', {params: {cc: 'asdf'}}).then(response => console.log(response.data));

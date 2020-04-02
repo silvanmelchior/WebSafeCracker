@@ -9,7 +9,9 @@ class SafeCracker extends React.Component {
     super(props);
     this.state = {
       points: null,
-      tasks: null
+      tasks: null,
+      selected_task_pk: null,   // null if none, 'loading' or pk of selected task
+      selected_task: null
     };
   }
 
@@ -29,7 +31,11 @@ class SafeCracker extends React.Component {
   };
 
   handleTaskSelect = (task_pk) => {
-    console.log(task_pk)
+    this.setState({selected_task_pk: 'loading'});
+    axios.get('/api/task/' + task_pk, {params: {cc: this.props.cc}}).then(response => this.setState({
+      selected_task_pk: task_pk,
+      selected_task: response.data
+    }));
   };
 
   render() {
@@ -51,7 +57,17 @@ class SafeCracker extends React.Component {
             />
           </div>
           <div className="SafeCracker-task">
-            <div className="SafeCracker-description">Description</div>
+            <div className="SafeCracker-description">
+              {
+                this.state.selected_task_pk == null ?
+                  'Task auswählen'
+                  :
+                  this.state.selected_task_pk === 'loading' ?
+                    'Loading...'
+                    :
+                    this.state.selected_task.description
+              }
+            </div>
             <div className="SafeCracker-code">Code</div>
           </div>
         </div>
