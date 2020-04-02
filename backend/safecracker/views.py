@@ -108,7 +108,8 @@ def task_list(request):
             'pk': task.pk,
             'nr': task.nr,
             'title': task.title,
-            'state': state
+            'state': state,
+            'points': float(task.points)
         })
     return HttpResponse(json.dumps({'tasks': tasks_list, 'points': float(points)}))
 

@@ -58,6 +58,7 @@ class App extends React.Component {
     if(this.state.login_status === 'ok') {
       return (
         <SafeCracker
+          cc={this.state.login_code}
           competitor_name={this.state.competitor_name}
           remaining_time={this.state.remaining_time}
         />
