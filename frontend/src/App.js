@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import Login from "./Login";
+import SafeCracker from "./SafeCracker";
 import "./App.css";
 
 
@@ -56,7 +57,10 @@ class App extends React.Component {
   render() {
     if(this.state.login_status === 'ok') {
       return (
-        <div>WELCOME {this.state.competitor_name}, you have {this.state.remaining_time}</div>
+        <SafeCracker
+          competitor_name={this.state.competitor_name}
+          remaining_time={this.state.remaining_time}
+        />
       );
     }
     else if(this.state.login_status === 'time is up') {
