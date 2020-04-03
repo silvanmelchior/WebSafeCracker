@@ -1,30 +1,16 @@
 import React from "react";
 
 
-class Lock extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {code: ''};
-  }
-
-  handleChange = (event) => {
-    let code = event.target.value;
-    if(code === '' || parseInt(code) + '' === code) {
-      this.props.handleChange(code);
-    }
-  };
-
-  render() {
-    return (
-      <div>
-        Code:
-        <input type="text" value={this.props.code}
-               onChange={this.handleChange} disabled={this.props.disabled} />
-        <input type="button" value="Enter" onClick={this.props.handleSubmit}
-               disabled={this.props.disabled || this.props.code === ''} />
-      </div>
-    )
-  }
+function Lock (props) {
+  return (
+    <div>
+      Code:
+      <input type="text" value={props.code}
+             onChange={props.handleChange} disabled={props.disabled} />
+      <input type="button" value="Enter" onClick={props.handleSubmit}
+             disabled={props.disabled || props.code === ''} />
+    </div>
+  )
 }
 
 export default Lock;

@@ -6,20 +6,6 @@
     --code-area-height: 100px;
 }
 
-.SafeCracker-modal {
-    position: absolute;
-    z-Index: 1000;
-    background-color: white;
-    top: 150px;
-    left: 0;
-    right: 0;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 20px 50px;
-    width: 500px;
-    border: 1px black solid;
-}
-
 .SafeCracker-header {
     position: absolute;
     top: 0;
@@ -27,13 +13,6 @@
     background-color: #8b9591;
     width: 100%;
     height: var(--header-height);
-}
-
-.SafeCracker-status {
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 100%;
 }
 
 .SafeCracker-body {

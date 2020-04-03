@@ -1,7 +1,10 @@
 import React from "react";
 import axios from "axios";
 import TaskList from "./TaskList";
+import Task from "./Task";
 import Lock from "./Lock";
+import FeedbackModal from "./FeedbackModel";
+import Header from "./Header";
 import "./SafeCracker.css";
 
 
@@ -41,8 +44,11 @@ class SafeCracker extends React.Component {
     }));
   };
 
-  handleCodeChange = (code) => {
-    this.setState({code: code})
+  handleCodeChange = (event) => {
+    let code = event.target.value;
+    if(code === '' || parseInt(code) + '' === code) {
+      this.setState({code: code})
+    }
   };
 
   handleCodeSubmit = () => {
@@ -65,22 +71,25 @@ class SafeCracker extends React.Component {
     this.handleTaskSelect(task_pk);
   };
 
+  handleFeedbackClose = () => {
+    this.setState({code_feedback: null});
+  };
+
   render() {
     return (
       <div className="SafeCracker">
         {this.state.code_feedback != null &&
-          <div className="SafeCracker-modal">
-            <p>{this.state.code_feedback}</p>
-            <input type="button" onClick={() => this.setState({code_feedback: null})} value="OK"/>
-          </div>
+          <FeedbackModal
+            status={this.state.code_feedback}
+            handleClose={this.handleFeedbackClose}
+          />
         }
         <div className="SafeCracker-header">
-          <div className="SafeCracker-title">Web Safe Cracker</div>
-          <div className="SafeCracker-status">
-            Name: {this.props.competitor_name}<br/>
-            Time: {this.props.remaining_time}<br/>
-            Points: {this.state.points}
-          </div>
+          <Header
+            competitor_name={this.props.competitor_name}
+            remaining_time={this.props.remaining_time}
+            points={this.state.points}
+          />
         </div>
         <div className="SafeCracker-body">
           <div className="SafeCracker-tasklist">
@@ -91,15 +100,10 @@ class SafeCracker extends React.Component {
           </div>
           <div className="SafeCracker-task">
             <div className="SafeCracker-description">
-              {
-                this.state.selected_task_pk == null ?
-                  'Task auswählen'
-                  :
-                  this.state.selected_task_pk === 'loading' ?
-                    'Loading...'
-                    :
-                    this.state.selected_task.description
-              }
+              <Task
+                task_pk={this.state.selected_task_pk}
+                task={this.state.selected_task}
+              />
             </div>
             <div className="SafeCracker-code">
               {
