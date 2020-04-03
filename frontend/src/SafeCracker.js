@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import TaskList from "./TaskList";
+import Lock from "./Lock";
 import "./SafeCracker.css";
 
 
@@ -11,7 +12,8 @@ class SafeCracker extends React.Component {
       points: null,
       tasks: null,
       selected_task_pk: null,   // null if none, 'loading' or pk of selected task
-      selected_task: null
+      selected_task: null,
+      code_feedback: null       // null, 'loading', 'solved', 'second chance', 'blocked'
     };
   }
 
@@ -36,6 +38,12 @@ class SafeCracker extends React.Component {
       selected_task_pk: task_pk,
       selected_task: response.data
     }));
+  };
+
+  handleCodeSubmit = (code) => {
+    this.setState({code_feedback: 'loading'});
+    //axios.post('/api/login', {cc: this.state.login_code})
+    console.log(code);
   };
 
   render() {
@@ -68,7 +76,16 @@ class SafeCracker extends React.Component {
                     this.state.selected_task.description
               }
             </div>
-            <div className="SafeCracker-code">Code</div>
+            <div className="SafeCracker-code">
+              {
+                this.state.selected_task_pk != null && this.state.selected_task_pk !== 'loading' &&
+                <Lock
+                  disabled={['blocked', 'solved'].includes(this.state.selected_task.state) ||
+                    this.state.code_feedback === 'loading'}
+                  handleSubmit={this.handleCodeSubmit}
+                />
+              }
+            </div>
           </div>
         </div>
       </div>
