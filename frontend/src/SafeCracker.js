@@ -42,13 +42,30 @@ class SafeCracker extends React.Component {
 
   handleCodeSubmit = (code) => {
     this.setState({code_feedback: 'loading'});
-    //axios.post('/api/login', {cc: this.state.login_code})
-    console.log(code);
+    axios.post('/api/task/' + this.state.selected_task_pk + '/enter_code',
+      {cc: this.props.cc, code: code}).then(this.handleCodeSubmitDone)
+  };
+
+  handleCodeSubmitDone = (response) => {
+    this.setState({
+      points: null,
+      tasks: null,
+      selected_task_pk: null,
+      selected_task: null,
+      code_feedback: response.data
+    });
+    this.loadTasks();
   };
 
   render() {
     return (
       <div className="SafeCracker">
+        {this.state.code_feedback != null &&
+          <div className="SafeCracker-modal">
+            <p>{this.state.code_feedback}</p>
+            <input type="button" onClick={() => this.setState({code_feedback: null})} value="OK"/>
+          </div>
+        }
         <div className="SafeCracker-header">
           <div className="SafeCracker-title">Web Safe Cracker</div>
           <div className="SafeCracker-status">
