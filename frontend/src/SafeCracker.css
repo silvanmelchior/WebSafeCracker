@@ -33,18 +33,20 @@
 .SafeCracker-tasklist {
     background-color: #c7cbc8;
     flex: 1;
+    overflow-y: auto;
 }
 
 .SafeCracker-task {
     position: relative;
     flex: 3;
+    padding-bottom: var(--code-area-height);
 }
 
 .SafeCracker-description {
     box-sizing: border-box;
     width: 100%;
     height: 100%;
-    padding-bottom: var(--code-area-height);
+    overflow-y: auto;
 }
 
 .SafeCracker-code {
