@@ -10,7 +10,7 @@ class Lock extends React.Component {
   handleChange = (event) => {
     let code = event.target.value;
     if(code === '' || parseInt(code) + '' === code) {
-      this.setState({code: code});
+      this.props.handleChange(code);
     }
   };
 
@@ -18,10 +18,10 @@ class Lock extends React.Component {
     return (
       <div>
         Code:
-        <input type="text" value={this.state.code}
+        <input type="text" value={this.props.code}
                onChange={this.handleChange} disabled={this.props.disabled} />
-        <input type="button" value="Enter" onClick={() => this.props.handleSubmit(this.state.code)}
-               disabled={this.props.disabled || this.state.code === ''} />
+        <input type="button" value="Enter" onClick={this.props.handleSubmit}
+               disabled={this.props.disabled || this.props.code === ''} />
       </div>
     )
   }

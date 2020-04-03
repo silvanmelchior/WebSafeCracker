@@ -13,6 +13,7 @@ class SafeCracker extends React.Component {
       tasks: null,
       selected_task_pk: null,   // null if none, 'loading' or pk of selected task
       selected_task: null,
+      code: '',
       code_feedback: null       // null, 'loading', 'solved', 'second chance', 'blocked'
     };
   }
@@ -33,28 +34,35 @@ class SafeCracker extends React.Component {
   };
 
   handleTaskSelect = (task_pk) => {
-    this.setState({selected_task_pk: 'loading'});
+    this.setState({selected_task_pk: 'loading', selected_task: null, code: ''});
     axios.get('/api/task/' + task_pk, {params: {cc: this.props.cc}}).then(response => this.setState({
       selected_task_pk: task_pk,
       selected_task: response.data
     }));
   };
 
-  handleCodeSubmit = (code) => {
+  handleCodeChange = (code) => {
+    this.setState({code: code})
+  };
+
+  handleCodeSubmit = () => {
     this.setState({code_feedback: 'loading'});
     axios.post('/api/task/' + this.state.selected_task_pk + '/enter_code',
-      {cc: this.props.cc, code: code}).then(this.handleCodeSubmitDone)
+      {cc: this.props.cc, code: this.state.code}).then(this.handleCodeSubmitDone)
   };
 
   handleCodeSubmitDone = (response) => {
+    let task_pk = this.state.selected_task_pk;
     this.setState({
       points: null,
       tasks: null,
       selected_task_pk: null,
       selected_task: null,
+      code: '',
       code_feedback: response.data
     });
     this.loadTasks();
+    this.handleTaskSelect(task_pk);
   };
 
   render() {
@@ -97,9 +105,11 @@ class SafeCracker extends React.Component {
               {
                 this.state.selected_task_pk != null && this.state.selected_task_pk !== 'loading' &&
                 <Lock
+                  code={this.state.code}
+                  handleChange={this.handleCodeChange}
+                  handleSubmit={this.handleCodeSubmit}
                   disabled={['blocked', 'solved'].includes(this.state.selected_task.state) ||
                     this.state.code_feedback === 'loading'}
-                  handleSubmit={this.handleCodeSubmit}
                 />
               }
             </div>
