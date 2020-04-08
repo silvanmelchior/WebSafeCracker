@@ -125,6 +125,7 @@ STATIC_URL = '/static/'
 
 CKEDITOR_CONFIGS = {
     'default': {
+        'extraPlugins': ','.join(['graph']),
         'toolbar': 'Custom',
         'toolbar_Custom': [
             ['Styles'],
@@ -132,7 +133,8 @@ CKEDITOR_CONFIGS = {
             ['TextColor', 'BGColor', 'SpecialChar'],
             ['Table', 'NumberedList', 'BulletedList'],
             ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+            ['Graph'],
             ['RemoveFormat', 'Source']
-        ]
+        ],
     }
 }
