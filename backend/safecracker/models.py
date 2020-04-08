@@ -1,4 +1,5 @@
 from django.db import models
+from ckeditor.fields import RichTextField
 
 
 class Setting(models.Model):
@@ -26,7 +27,7 @@ class Task(models.Model):
     nr = models.IntegerField()
     enabled = models.BooleanField()
     title = models.CharField(max_length=200)
-    description = models.TextField()
+    description = RichTextField()
     points = models.DecimalField(max_digits=5, decimal_places=1)
     code = models.CharField(max_length=100)
 

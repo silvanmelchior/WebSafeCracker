@@ -12,7 +12,7 @@ function Task (props) {
     return (
       <div>
         <div>{props.task.nr}: {props.task.title}</div>
-        <div>{props.task.description}</div>
+        <div dangerouslySetInnerHTML={{ __html: props.task.description }} />
       </div>
     )
   }
