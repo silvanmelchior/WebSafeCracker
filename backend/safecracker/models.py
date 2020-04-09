@@ -43,3 +43,11 @@ class Answer(models.Model):
 
     def __str__(self):
         return str(self.competitor) + ': ' + str(self.code)
+
+
+class Attachment(models.Model):
+    title = models.CharField(max_length=100, unique=True)
+    file = models.FileField()
+
+    def __str__(self):
+        return self.title
