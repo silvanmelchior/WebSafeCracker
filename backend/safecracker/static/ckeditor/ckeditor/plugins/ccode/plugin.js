@@ -3,7 +3,7 @@ CKEDITOR.plugins.add('ccode', {
   init: function(editor) {
     editor.addCommand('ccode', {
       exec: function(editor) {
-        editor.insertHtml('<pre><code class="language-clike">void f(void) {}</code></pre>');
+        editor.insertHtml('<pre class="line-numbers"><code class="language-clike">void f(void) {}</code></pre>');
       }
     });
     editor.ui.addButton('CCode', {
