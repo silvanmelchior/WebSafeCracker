@@ -1,6 +1,7 @@
 import json
 import decimal
 import datetime
+from django.conf import settings
 from django.http import HttpResponse
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
@@ -122,7 +123,8 @@ def task_get(request, task_id):
         'nr': task.nr,
         'title': task.title,
         'description': task.description,
-        'state': state
+        'state': state,
+        'media_url': settings.MEDIA_URL
     }
     return HttpResponse(json.dumps(response))
 

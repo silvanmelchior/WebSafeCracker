@@ -1,6 +1,7 @@
 import React from "react";
 import Prism from "prismjs";
 import 'prismjs/themes/prism-okaidia.css'
+import "./Task.css";
 
 
 class Task extends React.Component {
@@ -9,7 +10,18 @@ class Task extends React.Component {
   }
 
   componentDidUpdate() {
+    // Code
     Prism.highlightAll();
+    // Image
+    [...document.querySelectorAll('[data-imgurl]')].forEach(div => {
+      let path = div.dataset.imgurl;
+      let img = document.createElement('img');
+      img.src = this.props.task.media_url + path;
+      div.innerHTML = '';
+      div.style.border = '';
+      div.className = 'Task-blockimg';
+      div.appendChild(img);
+    })
   }
 
   render() {

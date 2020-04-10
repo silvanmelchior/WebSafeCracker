@@ -30,14 +30,17 @@ CKEDITOR.dialog.add('authimageDialog', function(editor) {
       let el = null;
       if(inline) {
         el = editor.document.createElement('span');
-        el.setAttribute('data-inlineimg', filename);
-        el.setText('Inline Image: ' + filename);
+        el.setStyle('display', 'inline-block');
+        el.setStyle('width', '20%');
       }
       else {
         el = editor.document.createElement('div');
-        el.setAttribute('data-blockimg', filename);
-        el.setText('Block Image: ' + filename);
+        el.setStyle('width', '100%');
       }
+      el.setAttribute('data-imgurl', filename);
+      el.setText('Image: ' + filename);
+      el.setText('Image: ' + filename);
+      el.setStyle('border', '1px black solid');
 
       editor.insertElement(el);
     }
