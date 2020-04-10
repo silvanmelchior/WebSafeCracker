@@ -132,16 +132,17 @@ MEDIA_URL = '/media/'
 
 CKEDITOR_CONFIGS = {
     'default': {
-        'extraPlugins': ','.join(['graph']),
+        'extraPlugins': ','.join(['ccode', 'graph']),
         'toolbar': 'Custom',
         'toolbar_Custom': [
-            ['Styles'],
             ['Bold', 'Italic', 'Underline', 'Strike', 'Undo', 'Redo'],
             ['TextColor', 'BGColor', 'SpecialChar'],
             ['Table', 'NumberedList', 'BulletedList'],
             ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-            ['Graph'],
+            ['CCode', 'Graph'],
             ['RemoveFormat', 'Source']
         ],
+        'removePlugins': 'stylesheetparser',
+        'allowedContent': True
     }
 }
