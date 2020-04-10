@@ -10,20 +10,20 @@ CKEDITOR.dialog.add('graphDialog', function(editor) {
         elements: [
           {
             type: 'text',
-            id: 'title',
-            label: 'Title',
-            validate: CKEDITOR.dialog.validate.notEmpty('Title field cannot be empty.')
+            id: 'filename',
+            label: 'File Name',
+            validate: CKEDITOR.dialog.validate.notEmpty('Field cannot be empty.')
           }
         ]
       }
     ],
     onOk: function() {
       let dialog = this;
-      let title = dialog.getValueOf('tab-basic', 'title');
+      let filename = dialog.getValueOf('tab-basic', 'filename');
 
       let el = editor.document.createElement('div');
-      el.setAttribute('data-graph', title);
-      el.setText('Graph: ' + title);
+      el.setAttribute('data-graph', filename);
+      el.setText('Graph: ' + filename);
 
       editor.insertElement(el);
     }

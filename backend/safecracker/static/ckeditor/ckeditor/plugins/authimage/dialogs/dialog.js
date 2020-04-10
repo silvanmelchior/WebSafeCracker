@@ -10,9 +10,9 @@ CKEDITOR.dialog.add('authimageDialog', function(editor) {
         elements: [
           {
             type: 'text',
-            id: 'title',
-            label: 'Title',
-            validate: CKEDITOR.dialog.validate.notEmpty('Title field cannot be empty.')
+            id: 'filename',
+            label: 'File Name',
+            validate: CKEDITOR.dialog.validate.notEmpty('Field cannot be empty.')
           },
           {
             type: 'checkbox',
@@ -24,19 +24,19 @@ CKEDITOR.dialog.add('authimageDialog', function(editor) {
     ],
     onOk: function() {
       let dialog = this;
-      let title = dialog.getValueOf('tab-basic', 'title');
+      let filename = dialog.getValueOf('tab-basic', 'filename');
       let inline = dialog.getValueOf('tab-basic', 'inline');
 
       let el = null;
       if(inline) {
         el = editor.document.createElement('span');
-        el.setAttribute('data-inlineimg', title);
-        el.setText('Inline Image: ' + title);
+        el.setAttribute('data-inlineimg', filename);
+        el.setText('Inline Image: ' + filename);
       }
       else {
         el = editor.document.createElement('div');
-        el.setAttribute('data-blockimg', title);
-        el.setText('Block Image: ' + title);
+        el.setAttribute('data-blockimg', filename);
+        el.setText('Block Image: ' + filename);
       }
 
       editor.insertElement(el);
