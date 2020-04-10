@@ -1,8 +1,8 @@
-CKEDITOR.dialog.add( 'graphDialog', function( editor ) {
+CKEDITOR.dialog.add('graphDialog', function(editor) {
   return {
-    title: 'Abbreviation Properties',
+    title: 'Graph Properties',
     minWidth: 400,
-    minHeight: 200,
+    minHeight: 100,
     contents: [
       {
         id: 'tab-basic',
@@ -10,42 +10,22 @@ CKEDITOR.dialog.add( 'graphDialog', function( editor ) {
         elements: [
           {
             type: 'text',
-            id: 'abbr',
-            label: 'Abbreviation',
-            validate: CKEDITOR.dialog.validate.notEmpty( "Abbreviation field cannot be empty." )
-          },
-          {
-            type: 'text',
             id: 'title',
-            label: 'Explanation',
-            validate: CKEDITOR.dialog.validate.notEmpty( "Explanation field cannot be empty." )
-          }
-        ]
-      },
-      {
-        id: 'tab-adv',
-        label: 'Advanced Settings',
-        elements: [
-          {
-            type: 'text',
-            id: 'id',
-            label: 'Id'
+            label: 'Title',
+            validate: CKEDITOR.dialog.validate.notEmpty('Title field cannot be empty.')
           }
         ]
       }
     ],
     onOk: function() {
-      var dialog = this;
+      let dialog = this;
+      let title = dialog.getValueOf('tab-basic', 'title');
 
-      var abbr = editor.document.createElement( 'abbr' );
-      abbr.setAttribute( 'title', dialog.getValueOf( 'tab-basic', 'title' ) );
-      abbr.setText( dialog.getValueOf( 'tab-basic', 'abbr' ) );
+      let el = editor.document.createElement('div');
+      el.setAttribute('data-graph', title);
+      el.setText('Graph: ' + title);
 
-      var id = dialog.getValueOf( 'tab-adv', 'id' );
-      if ( id )
-        abbr.setAttribute( 'id', id );
-
-      editor.insertElement( abbr );
+      editor.insertElement(el);
     }
   };
 });
