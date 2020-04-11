@@ -1,6 +1,59 @@
+.Header {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    max-width: var(--max-width);
+    margin-left: auto;
+    margin-right: auto;
+    padding: var(--tb-padding) var(--side-padding);
+    box-sizing: border-box;
+    display: flex;
+    --tb-padding: 10px;
+}
+
+.Header-logo {
+    height: 100%;
+    flex: 1;
+    text-align: center;
+}
+
+.Header-logo img {
+    height: 100%;
+}
+
+.Header-title {
+    position: relative;
+    flex: 3;
+}
+
+.Header-title div {
+    position: absolute;
+    bottom: 0;
+    left: var(--side-padding);
+    font-size: 36px;
+    font-weight: bold;
+    line-height: 1;
+}
+
 .Header-status {
     position: absolute;
-    top: 0;
-    right: 0;
-    height: 100%;
+    top: var(--tb-padding);
+    bottom: var(--tb-padding);
+    right: var(--side-padding);
+    height: auto;
+}
+
+.Header-status-name {
+    font-weight: bold;
+}
+
+.Header-status-time {
+}
+
+.Header-status-points {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    font-size: 20px;
+    font-weight: bold;
 }
