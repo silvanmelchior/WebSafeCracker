@@ -72,7 +72,8 @@ class Task extends React.Component {
           },
         };
         let config = {
-          displayModeBar: false
+          displayModeBar: false,
+          responsive: true
         };
         Plotly.newPlot(inner_div, traces, layout, config);
       });
