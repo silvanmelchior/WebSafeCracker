@@ -1,3 +1,15 @@
 .Task-blockimg img {
     width: 100%;
 }
+
+.plotly-notifier {
+    font-family: inherit;
+    top: 70px;
+    right: 50px;
+}
+
+.plotly-notifier .notifier-note {
+    background-color: white;
+    color: black;
+    border: 1px black solid;
+}
