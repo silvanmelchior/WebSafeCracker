@@ -1,4 +1,6 @@
 import React from 'react';
+import "./Login.css"
+import logo from './logo.png'
 
 
 const message = {
@@ -9,18 +11,25 @@ const message = {
 
 function Login(props) {
   return (
-    <form onSubmit={props.handleSubmit}>
-      {props.status !== 'loading' ?
-        <div>
-          Code:
-          <input type="text" value={props.code} onChange={props.handleChange} />
-          <input type="submit" value="Login" />
-          <div>{message[props.status]}</div>
-        </div>
-        :
-        <div>Loading...</div>
-      }
-    </form>
+    <div className="Login">
+      <img className="Login-img" src={logo} alt="logo" />
+      <form onSubmit={props.handleSubmit}>
+        {props.status !== 'loading' ?
+          <div>
+            <div className="Login-form">
+              Access Code:&nbsp;
+              <input type="password" value={props.code} onChange={props.handleChange} />
+            </div>
+            <div className="Login-button">
+              <input type="submit" value="Login" />
+            </div>
+            <div className="Login-message">{message[props.status]}</div>
+          </div>
+          :
+          <div className="Login-loading">Loading...</div>
+        }
+      </form>
+    </div>
   )
 }
 

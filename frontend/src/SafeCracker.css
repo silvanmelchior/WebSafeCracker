@@ -2,13 +2,11 @@
     position: relative;
     width: 100vw;
     height: 100vh;
-    background-color: var(--body-color);
     --header-height: 100px;
     --code-area-height: 60px;
     --max-width: 1600px;
     --side-padding: 20px;
     --border-color: #C4C4C4;
-    --body-color: #efefef;
     --taskstate-open: var(--border-color);
     --taskstate-solved: green;
     --taskstate-second-chance: orange;
@@ -21,7 +19,7 @@
     left: 0;
     width: 100%;
     height: var(--header-height);
-    background-color: #e17d00;
+    background-color: var(--brand-color);
     border-bottom: 1px var(--border-color) solid;
 }
 

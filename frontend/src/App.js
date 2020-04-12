@@ -12,6 +12,12 @@ class App extends React.Component {
       login_status: null,   // null, 'loading', feedback backend (incl. 'ok')
       login_code: ''
     };
+    /*this.state = {
+      login_status: 'ok',   // null, 'loading', feedback backend (incl. 'ok')
+      login_code: 'asdf',
+      competitor_name: 'Silvan Melchior',
+      remaining_time: 660.2
+    };*/
   }
 
   handleLoginCodeChange = (event) => {

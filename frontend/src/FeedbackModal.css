@@ -10,7 +10,7 @@
     padding: 20px 50px;
     width: 400px;
     border-radius: 5px;
-    box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.5);
+    box-shadow: 0 0 20px 0 rgba(0,0,0,0.5);
 }
 
 .FeedbackModal-title {
