@@ -96,6 +96,7 @@ class SafeCracker extends React.Component {
             <TaskList
               tasks={this.state.tasks}
               handleSelect={this.handleTaskSelect}
+              selected={this.state.selected_task_pk}
             />
           </div>
           <div className="SafeCracker-task">

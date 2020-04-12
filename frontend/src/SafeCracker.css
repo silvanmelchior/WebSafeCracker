@@ -2,20 +2,23 @@
     position: relative;
     width: 100vw;
     height: 100vh;
+    background-color: var(--body-color);
     --header-height: 100px;
     --code-area-height: 100px;
     --max-width: 1600px;
     --side-padding: 20px;
+    --border-color: #C4C4C4;
+    --body-color: #efefef;
 }
 
 .SafeCracker-header {
     position: absolute;
     top: 0;
     left: 0;
-    background-color: #e9e9e9;
     width: 100%;
     height: var(--header-height);
-    border-bottom: 1px #c4c4c4 solid;
+    background-color: #e17d00;
+    border-bottom: 1px var(--border-color) solid;
 }
 
 .SafeCracker-body {
@@ -26,23 +29,27 @@
     max-width: var(--max-width);
     margin-left: auto;
     margin-right: auto;
-    padding-top: var(--header-height);
+    padding-top: calc(var(--header-height) + 1px);
     padding-left: var(--side-padding);
     padding-right: var(--side-padding);
-    --top-padding: 20px;
+    --content-padding: 20px;
 }
 
 .SafeCracker-tasklist {
-    background-color: #919191;
     flex: 1;
+    box-sizing: border-box;
     overflow-y: auto;
-    padding-top: var(--top-padding)
+    border-right: 1px var(--border-color) solid;
+    border-left: 1px var(--border-color) solid;
+    background-color: white;
 }
 
 .SafeCracker-task {
     position: relative;
     flex: 3;
     padding-bottom: var(--code-area-height);
+    border-right: 1px var(--border-color) solid;
+    background-color: white;
 }
 
 .SafeCracker-description {
@@ -50,7 +57,7 @@
     width: 100%;
     height: 100%;
     overflow-y: auto;
-    padding: var(--top-padding) var(--side-padding);
+    padding: var(--content-padding);
 }
 
 .SafeCracker-code {
@@ -59,5 +66,21 @@
     left: 0;
     width: 100%;
     height: var(--code-area-height);
-    border-top: 1px #c4c4c4 solid;
+    border-top: 1px var(--border-color) solid;
+}
+
+.TaskState-open {
+    background-color: var(--border-color);
+}
+
+.TaskState-solved {
+    background-color: green;
+}
+
+.TaskState-second-chance {
+    background-color: orange;
+}
+
+.TaskState-blocked {
+    background-color: red;
 }
