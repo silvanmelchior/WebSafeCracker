@@ -4,7 +4,7 @@ import "./TaskList.css"
 
 function TaskList(props) {
   if(props.tasks == null) {
-    return <div>Loading...</div>;
+    return <div className="TaskList-loading">Loading...</div>;
   }
   else {
     return (

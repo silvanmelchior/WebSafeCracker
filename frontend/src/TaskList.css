@@ -43,3 +43,8 @@
 .TaskList-item-state-blocked {
     background-color: var(--taskstate-blocked);
 }
+
+.TaskList-loading {
+    padding: var(--content-padding);
+    font-style: italic;
+}
