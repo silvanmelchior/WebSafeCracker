@@ -14,7 +14,7 @@ function TaskList(props) {
                key={task.pk} onClick={() => props.handleSelect(task.pk)}>
             <div className="TaskList-item-title">{task.nr}: {task.title}</div>
             <div className="TaskList-item-points">Point: {task.points}</div>
-            <div className={['TaskList-item-state', 'TaskState-' + task.state.replace(' ', '-')].join(' ')} />
+            <div className={['TaskList-item-state', 'TaskList-item-state-' + task.state.replace(' ', '-')].join(' ')} />
           </div>
         ))}
       </div>

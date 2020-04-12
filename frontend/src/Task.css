@@ -1,3 +1,13 @@
+.Task-placeholder {
+    font-style: italic;
+}
+
+.Task-title {
+    font-weight: bold;
+    font-size: 24px;
+    margin-bottom: 25px;
+}
+
 .Task-blockimg img {
     width: 100%;
 }

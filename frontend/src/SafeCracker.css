@@ -4,11 +4,15 @@
     height: 100vh;
     background-color: var(--body-color);
     --header-height: 100px;
-    --code-area-height: 100px;
+    --code-area-height: 60px;
     --max-width: 1600px;
     --side-padding: 20px;
     --border-color: #C4C4C4;
     --body-color: #efefef;
+    --taskstate-open: var(--border-color);
+    --taskstate-solved: green;
+    --taskstate-second-chance: orange;
+    --taskstate-blocked: red;
 }
 
 .SafeCracker-header {
@@ -67,20 +71,6 @@
     width: 100%;
     height: var(--code-area-height);
     border-top: 1px var(--border-color) solid;
-}
-
-.TaskState-open {
-    background-color: var(--border-color);
-}
-
-.TaskState-solved {
-    background-color: green;
-}
-
-.TaskState-second-chance {
-    background-color: orange;
-}
-
-.TaskState-blocked {
-    background-color: red;
+    box-sizing: border-box;
+    padding: var(--content-padding);
 }

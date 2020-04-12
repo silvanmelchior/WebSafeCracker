@@ -27,3 +27,19 @@
     width: var(--state-width);
     height: 100%;
 }
+
+.TaskList-item-state-open {
+    background-color: var(--taskstate-open);
+}
+
+.TaskList-item-state-solved {
+    background-color: var(--taskstate-solved);
+}
+
+.TaskList-item-state-second-chance {
+    background-color: var(--taskstate-second-chance);
+}
+
+.TaskList-item-state-blocked {
+    background-color: var(--taskstate-blocked);
+}

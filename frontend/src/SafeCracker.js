@@ -110,6 +110,7 @@ class SafeCracker extends React.Component {
               {
                 this.state.selected_task_pk != null && this.state.selected_task_pk !== 'loading' &&
                 <Lock
+                  state={this.state.selected_task.state}
                   code={this.state.code}
                   handleChange={this.handleCodeChange}
                   handleSubmit={this.handleCodeSubmit}

@@ -1,0 +1,19 @@
+.Lock {
+    font-weight: bold;
+
+}
+
+.Lock-state-open {
+}
+
+.Lock-state-solved {
+    color: var(--taskstate-solved);
+}
+
+.Lock-state-second-chance {
+    color: var(--taskstate-second-chance);
+}
+
+.Lock-state-blocked {
+    color: var(--taskstate-blocked);
+}

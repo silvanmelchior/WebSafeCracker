@@ -82,15 +82,15 @@ class Task extends React.Component {
 
   render() {
     if(this.props.task_pk == null) {
-      return <div>Task auswählen</div>
+      return <div className="Task-placeholder">Please select a task.</div>
     }
     else if(this.props.task_pk === 'loading') {
-      return <div>Loading...</div>
+      return <div className="Task-placeholder">Loading...</div>
     }
     else {
       return (
         <div>
-          <div>{this.props.task.nr}: {this.props.task.title}</div>
+          <div className="Task-title">{this.props.task.nr}: {this.props.task.title}</div>
           <div dangerouslySetInnerHTML={{ __html: this.props.task.description }} />
         </div>
       )
