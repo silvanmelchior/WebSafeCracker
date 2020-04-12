@@ -9,11 +9,25 @@ import axios from "axios";
 
 
 class Task extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      task_pk_backup: props.task_pk
+    };
+  }
+
   componentDidMount() {
-    this.componentDidUpdate();
+    this.renderSpecialElements();
   }
 
   componentDidUpdate() {
+    if(this.state.task_pk_backup !== this.props.task_pk) {
+      this.renderSpecialElements();
+      this.setState((state, props) => ({task_pk_backup: props.task_pk}));
+    }
+  }
+
+  renderSpecialElements() {
     // Code
     Prism.highlightAll();
     // Image
