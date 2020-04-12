@@ -47,3 +47,14 @@
     font-weight: bold;
     padding: 20px;
 }
+
+.Login-timeup {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.Login-timeup-sub {
+    margin-top: 10px;
+    font-style: italic;
+    margin-bottom: 20px;
+}

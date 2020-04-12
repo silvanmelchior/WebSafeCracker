@@ -71,7 +71,11 @@ class App extends React.Component {
       );
     }
     else if(this.state.login_status === 'time is up') {
-      return <div>Time is up</div>
+      return (
+        <div className="Login">
+          <div className="Login-timeup">Time is up</div>
+          <div className="Login-timeup-sub">Thanks for your participation!</div>
+        </div>)
     }
     else {
       return (
