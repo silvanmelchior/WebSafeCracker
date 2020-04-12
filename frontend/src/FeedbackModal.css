@@ -2,12 +2,45 @@
     position: absolute;
     z-Index: 1000;
     background-color: white;
-    top: 150px;
+    top: 250px;
     left: 0;
     right: 0;
     margin-left: auto;
     margin-right: auto;
     padding: 20px 50px;
-    width: 500px;
-    border: 1px black solid;
+    width: 400px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.5);
+}
+
+.FeedbackModal-title {
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.FeedbackModal-message {
+    margin-top: 15px;
+}
+
+.FeedbackModal-button {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.FeedbackModal-button input {
+    width: 80px;
+    height: 35px;
+    font-size: 18px;
+}
+
+.FeedbackModal-state-solved {
+    background-color: var(--taskstate-solved);
+}
+
+.FeedbackModal-state-second-chance {
+    background-color: var(--taskstate-second-chance);
+}
+
+.FeedbackModal-state-blocked {
+    background-color: var(--taskstate-blocked);
 }

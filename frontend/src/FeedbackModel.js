@@ -18,10 +18,12 @@ const message = {
 
 function FeedbackModal (props) {
   return (
-    <div className="FeedbackModal">
-      <div>{title[props.status]}</div>
-      <div>{message[props.status]}</div>
-      <input type="button" onClick={props.handleClose} value="OK"/>
+    <div className={['FeedbackModal', 'FeedbackModal-state-' + props.status.replace(' ', '-')].join(' ')}>
+      <div className="FeedbackModal-title">{title[props.status]}</div>
+      <div className="FeedbackModal-message">{message[props.status]}</div>
+      <div className="FeedbackModal-button">
+        <input type="button" onClick={props.handleClose} value="OK"/>
+      </div>
     </div>
   )
 }
