@@ -1,0 +1,5 @@
+.idea
+frontend/node_modules
+backend/media
+backend/venv
+backend/db.sqlite3

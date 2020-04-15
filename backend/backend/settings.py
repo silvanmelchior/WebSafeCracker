@@ -18,11 +18,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Dev/Prod Settings
 
-SECRET_KEY = os.environ['SECRET_KEY']
-
 DEBUG = os.environ['DEBUG'] == 'true'
 
-ALLOWED_HOSTS = [os.environ['ALLOWED_HOST']]
+if DEBUG:
+    SECRET_KEY = 'secret'
+    ALLOWED_HOSTS = []
+else:
+    SECRET_KEY = os.environ['SECRET_KEY']
+    ALLOWED_HOSTS = [os.environ['ALLOWED_HOST']]
 
 
 # Application definition
