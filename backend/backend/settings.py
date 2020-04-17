@@ -22,10 +22,10 @@ DEBUG = os.environ['DEBUG'] == 'true'
 
 if DEBUG:
     SECRET_KEY = 'secret'
-    ALLOWED_HOSTS = []
 else:
     SECRET_KEY = os.environ['SECRET_KEY']
-    ALLOWED_HOSTS = [os.environ['ALLOWED_HOST']]
+
+ALLOWED_HOSTS = ['*']  # Handle in nginx
 
 
 # Application definition

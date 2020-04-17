@@ -3,4 +3,4 @@
 python -u manage.py migrate
 
 service nginx start
-gunicorn backend.wsgi
+gunicorn -b :8000 backend.wsgi
