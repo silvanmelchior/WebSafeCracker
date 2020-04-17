@@ -16,14 +16,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-# Dev/Prod Settings
-
-DEBUG = os.environ['DEBUG'] == 'true'
-
-if DEBUG:
-    SECRET_KEY = 'secret'
-else:
-    SECRET_KEY = os.environ['SECRET_KEY']
+# Allowed Hosts
 
 ALLOWED_HOSTS = ['*']  # Handle in nginx
 
@@ -71,17 +64,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'backend.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
 
 
 # Password validation
