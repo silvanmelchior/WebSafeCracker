@@ -1,8 +1,13 @@
 FROM python:3.7-buster
 
 WORKDIR /opt/app
+EXPOSE 80 2222
 
-RUN apt-get update && apt-get install nginx gettext-base -y
+RUN apt-get update && apt-get install nginx gettext-base openssh-server -y --no-install-recommends
+
+RUN echo "root:Docker!" | chpasswd
+COPY docker-sshd.conf /etc/ssh/sshd_config
+
 RUN ln -sf /dev/stderr /var/log/nginx/error.log
 COPY docker-nginx.conf /etc/nginx/sites-available/default.template
 
