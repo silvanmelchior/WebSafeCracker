@@ -3,6 +3,8 @@ from .settings import *
 
 DEBUG = True
 
+ALLOWED_HOSTS = []
+
 SECRET_KEY = 'dummy_key'
 
 DATABASES = {

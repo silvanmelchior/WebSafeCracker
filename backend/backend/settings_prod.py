@@ -3,6 +3,8 @@ from .settings import *
 
 DEBUG = False
 
+ALLOWED_HOSTS = [os.environ['ALLOWED_HOST']]
+
 SECRET_KEY = os.environ['SECRET_KEY']
 
 DATABASES = {

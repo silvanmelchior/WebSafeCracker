@@ -2,9 +2,9 @@ FROM python:3.7-buster
 
 WORKDIR /opt/app
 
-RUN apt-get update && apt-get install nginx -y
+RUN apt-get update && apt-get install nginx gettext-base -y
 RUN ln -sf /dev/stderr /var/log/nginx/error.log
-COPY docker-nginx.conf /etc/nginx/sites-available/default
+COPY docker-nginx.conf /etc/nginx/sites-available/default.template
 
 COPY backend/requirements.txt .
 RUN pip install -r requirements.txt

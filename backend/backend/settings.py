@@ -16,11 +16,6 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-# Allowed Hosts
-
-ALLOWED_HOSTS = ['*']  # Handle in nginx
-
-
 # Application definition
 
 INSTALLED_APPS = [
