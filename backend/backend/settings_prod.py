@@ -17,3 +17,6 @@ DATABASES = {
         'NAME': os.environ['DB_NAME']
     }
 }
+
+DEFAULT_FILE_STORAGE = 'backend.custom_storage.custom_azure.AzureMediaStorage'
+MEDIA_URL = os.environ['MEDIA_URL']
