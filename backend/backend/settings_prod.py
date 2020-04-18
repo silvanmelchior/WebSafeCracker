@@ -14,7 +14,8 @@ DATABASES = {
         'PORT': os.environ['DB_PORT'],
         'USER': os.environ['DB_USER'],
         'PASSWORD': os.environ['DB_PASSWORD'],
-        'NAME': os.environ['DB_NAME']
+        'NAME': os.environ['DB_NAME'],
+        'CONN_MAX_AGE': 60
     }
 }
 
