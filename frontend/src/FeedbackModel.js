@@ -21,9 +21,11 @@ function FeedbackModal (props) {
     <div className={['FeedbackModal', 'FeedbackModal-state-' + props.status.replace(' ', '-')].join(' ')}>
       <div className="FeedbackModal-title">{title[props.status]}</div>
       <div className="FeedbackModal-message">{message[props.status]}</div>
-      <div className="FeedbackModal-button">
-        <input type="button" onClick={props.handleClose} value="OK"/>
-      </div>
+      {props.status !== 'loading' &&
+        <div className="FeedbackModal-button">
+          <input type="button" onClick={props.handleClose} value="OK"/>
+        </div>
+      }
     </div>
   )
 }
