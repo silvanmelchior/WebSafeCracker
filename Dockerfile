@@ -15,9 +15,9 @@ COPY backend/requirements.txt .
 RUN pip install -r requirements.txt
 
 COPY backend .
-COPY frontend/build/static static_prod
-COPY frontend/build/index.html frontend_prod/files
-COPY frontend/build/favicon.ico frontend_prod/files
+COPY frontend/build/static static_prod/static
+COPY frontend/build/index.html static_prod
+COPY frontend/build/favicon.ico static_prod
 
 COPY docker-start.sh .
 CMD ["./docker-start.sh"]
