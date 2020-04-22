@@ -20,7 +20,7 @@ class Competitor(models.Model):
     task_start = models.DateTimeField()
 
     def __str__(self):
-        return self.full_name
+        return str(self.competitor_id) + ': ' + str(self.full_name)
 
 
 class Task(models.Model):
