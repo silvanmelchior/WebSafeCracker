@@ -42,7 +42,7 @@ class Answer(models.Model):
     time = models.DateTimeField()
 
     def __str__(self):
-        return str(self.competitor) + ': ' + str(self.code)
+        return str(self.competitor) + ' for ' + str(self.task) + ': ' + str(self.code)
 
 
 class Attachment(models.Model):

@@ -1,7 +1,9 @@
 import csv
+import decimal
 from io import StringIO
 from django import forms
 from django.urls import path
+from django.http import HttpResponse
 from django.contrib import admin, messages
 from django.shortcuts import redirect, render
 from django.utils.dateparse import parse_datetime
@@ -11,7 +13,6 @@ from .models import Setting, Competitor, Task, Answer, Attachment
 
 admin.site.register(Setting)
 admin.site.register(Task)
-admin.site.register(Answer)
 admin.site.register(Attachment)
 
 
@@ -26,7 +27,7 @@ class CompetitorAdmin(admin.ModelAdmin):
 
     def get_urls(self):
         my_urls = [
-            path('import-csv/', self.import_csv),
+            path('import-csv/', self.import_csv)
         ]
         return my_urls + super().get_urls()
 
@@ -79,3 +80,49 @@ class CompetitorAdmin(admin.ModelAdmin):
 
         context = {'form': CsvImportForm()}
         return render(request, 'admin/csv_form.html', context)
+
+
+@admin.register(Answer)
+class AnswerAdmin(admin.ModelAdmin):
+
+    def get_urls(self):
+        my_urls = [
+            path('export-csv/', self.export_csv)
+        ]
+        return my_urls + super().get_urls()
+
+    def export_csv(self, request):
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="points.csv"'
+
+        tasks = list(Task.objects.filter(enabled=True).order_by('nr'))
+        competitors = list(Competitor.objects.all().order_by('competitor_id'))
+        fail_penalty = Setting.objects.get(key='fail_penalty').value_dec
+
+        writer = csv.writer(response)
+        writer.writerow([''] + ['Task ' + str(task.nr) for task in tasks])
+        for competitor in competitors:
+            points = decimal.Decimal(0)
+            row = [competitor.full_name]
+            for task in tasks:
+                answers = task.answer_set.filter(competitor=competitor).order_by('time')
+                if len(answers) == 0:
+                    row.append('')
+                else:
+                    last_answer = list(answers)[-1]
+                    if last_answer.code == task.code:
+                        if len(answers) == 1:
+                            row.append('S')
+                        else:
+                            row.append('S*')
+                        points += task.points
+                    else:
+                        if len(answers) == 1:
+                            row.append('T')
+                        else:
+                            row.append('F')
+                            points -= fail_penalty
+            row.append(str(points))
+            writer.writerow(row)
+
+        return response
