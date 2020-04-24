@@ -98,31 +98,38 @@ class AnswerAdmin(admin.ModelAdmin):
         tasks = list(Task.objects.filter(enabled=True).order_by('nr'))
         competitors = list(Competitor.objects.all().order_by('competitor_id'))
         fail_penalty = Setting.objects.get(key='fail_penalty').value_dec
+        task_stats = [{'-': 0, 'S': 0, 'S*': 0, 'T': 0, 'F': 0} for _ in tasks]
 
         writer = csv.writer(response)
-        writer.writerow([''] + ['Task ' + str(task.nr) for task in tasks])
+        writer.writerow(['', ''] + ['Task ' + str(task.nr) for task in tasks] + ['Total'])
         for competitor in competitors:
             points = decimal.Decimal(0)
-            row = [competitor.full_name]
-            for task in tasks:
+            row = [str(competitor.competitor_id), competitor.full_name]
+            for i, task in enumerate(tasks):
                 answers = task.answer_set.filter(competitor=competitor).order_by('time')
                 if len(answers) == 0:
-                    row.append('')
+                    state = '-'
                 else:
                     last_answer = list(answers)[-1]
                     if last_answer.code == task.code:
                         if len(answers) == 1:
-                            row.append('S')
+                            state = 'S'
                         else:
-                            row.append('S*')
+                            state = 'S*'
                         points += task.points
                     else:
                         if len(answers) == 1:
-                            row.append('T')
+                            state = 'T'
                         else:
-                            row.append('F')
+                            state = 'F'
                             points -= fail_penalty
+                row.append(state)
+                task_stats[i][state] += 1
             row.append(str(points))
             writer.writerow(row)
+
+        writer.writerow([])
+        for state in ['-', 'S', 'S*', 'T', 'F']:
+            writer.writerow(['Total', state] + [str(task_stats[i][state]) for i, _ in enumerate(tasks)])
 
         return response
