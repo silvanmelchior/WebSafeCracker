@@ -93,7 +93,7 @@ class CompetitorAdmin(admin.ModelAdmin):
     def export_csv(self, request, competitor_id):
         competitor = get_object_or_404(Competitor, pk=competitor_id)
 
-        answers = list(competitor.answer_set.all())
+        answers = list(competitor.answer_set.filter(task__enabled=True))
         answers = [(answer.time, [
             datetime_to_str(answer.time),
             'Enter Code',
@@ -102,7 +102,7 @@ class CompetitorAdmin(admin.ModelAdmin):
             'Correct Code' if answer.code == answer.task.code else 'Wrong Code'
         ]) for answer in answers]
 
-        views = list(competitor.taskview_set.all())
+        views = list(competitor.taskview_set.filter(task__enabled=True))
         views = [(view.time, [
             datetime_to_str(view.time),
             'View Task',
@@ -121,7 +121,8 @@ class CompetitorAdmin(admin.ModelAdmin):
         actions.sort()
 
         response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = f'attachment; filename="{competitor.full_name} actions.csv"'
+        response['Content-Disposition'] = f'attachment;' \
+            f'filename="{competitor.competitor_id} {competitor.full_name} Actions.csv"'
         writer = csv.writer(response)
 
         for action_time, str_list in actions:
