@@ -36,8 +36,8 @@ class Task(models.Model):
 
 
 class TaskView(models.Model):
-    competitor = models.ForeignKey(Competitor, on_delete=models.PROTECT)
-    task = models.ForeignKey(Task, on_delete=models.PROTECT)
+    competitor = models.ForeignKey(Competitor, on_delete=models.CASCADE)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
     time = models.DateTimeField()
 
     def __str__(self):
@@ -45,8 +45,8 @@ class TaskView(models.Model):
 
 
 class Answer(models.Model):
-    competitor = models.ForeignKey(Competitor, on_delete=models.PROTECT)
-    task = models.ForeignKey(Task, on_delete=models.PROTECT)
+    competitor = models.ForeignKey(Competitor, on_delete=models.CASCADE)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
     code = models.CharField(max_length=100)
     time = models.DateTimeField()
 
