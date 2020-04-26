@@ -35,6 +35,15 @@ class Task(models.Model):
         return str(self.nr) + ': ' + str(self.title)
 
 
+class TaskView(models.Model):
+    competitor = models.ForeignKey(Competitor, on_delete=models.PROTECT)
+    task = models.ForeignKey(Task, on_delete=models.PROTECT)
+    time = models.DateTimeField()
+
+    def __str__(self):
+        return str(self.competitor) + ', ' + str(self.task)
+
+
 class Answer(models.Model):
     competitor = models.ForeignKey(Competitor, on_delete=models.PROTECT)
     task = models.ForeignKey(Task, on_delete=models.PROTECT)

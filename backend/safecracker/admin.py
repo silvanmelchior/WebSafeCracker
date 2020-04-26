@@ -8,11 +8,12 @@ from django.contrib import admin, messages
 from django.shortcuts import redirect, render
 from django.utils.dateparse import parse_datetime
 
-from .models import Setting, Competitor, Task, Answer, Attachment
+from .models import Setting, Competitor, Task, TaskView, Answer, Attachment
 
 
 admin.site.register(Setting)
 admin.site.register(Task)
+admin.site.register(TaskView)
 admin.site.register(Attachment)
 
 

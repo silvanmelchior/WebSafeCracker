@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import PermissionDenied
-from .models import Competitor, Setting, Task, Answer
+from .models import Competitor, Setting, Task, TaskView
 
 
 def _authenticate(cc):
@@ -118,6 +118,8 @@ def task_list(request):
 def task_get(request, task_id):
     competitor = _get_competitor_get(request)
     task = get_object_or_404(Task, pk=task_id, enabled=True)
+    TaskView(competitor=competitor, task=task, time=timezone.now()).save()
+
     state = _get_task_state(task, competitor)
     response = {
         'nr': task.nr,
