@@ -1,11 +1,14 @@
 import csv
+import pytz
 import decimal
+import datetime
 from io import StringIO
 from django import forms
 from django.urls import path
+from django.conf import settings
 from django.http import HttpResponse
 from django.contrib import admin, messages
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.utils.dateparse import parse_datetime
 
 from .models import Setting, Competitor, Task, TaskView, Answer, Attachment
@@ -21,6 +24,10 @@ class CsvImportForm(forms.Form):
     csv_file = forms.FileField()
 
 
+def datetime_to_str(datetime):
+    return datetime.astimezone(pytz.timezone(settings.TIME_ZONE)).strftime('%Y-%m-%d %H:%M:%S')
+
+
 @admin.register(Competitor)
 class CompetitorAdmin(admin.ModelAdmin):
 
@@ -28,7 +35,8 @@ class CompetitorAdmin(admin.ModelAdmin):
 
     def get_urls(self):
         my_urls = [
-            path('import-csv/', self.import_csv)
+            path('import-csv/', self.import_csv),
+            path('<int:competitor_id>/change/export-csv/', self.export_csv)
         ]
         return my_urls + super().get_urls()
 
@@ -81,6 +89,45 @@ class CompetitorAdmin(admin.ModelAdmin):
 
         context = {'form': CsvImportForm()}
         return render(request, 'admin/csv_form.html', context)
+
+    def export_csv(self, request, competitor_id):
+        competitor = get_object_or_404(Competitor, pk=competitor_id)
+
+        answers = list(competitor.answer_set.all())
+        answers = [(answer.time, [
+            datetime_to_str(answer.time),
+            'Enter Code',
+            str(answer.task),
+            answer.code,
+            'Correct Code' if answer.code == answer.task.code else 'Wrong Code'
+        ]) for answer in answers]
+
+        views = list(competitor.taskview_set.all())
+        views = [(view.time, [
+            datetime_to_str(view.time),
+            'View Task',
+            str(view.task)
+        ]) for view in views]
+
+        task_time = Setting.objects.get(key='task_time').value_int
+        start_time = competitor.login_time
+        end_time = start_time + datetime.timedelta(seconds=task_time)
+        logins = [
+            (start_time, [datetime_to_str(start_time), 'Login']),
+            (end_time, [datetime_to_str(end_time), 'End']),
+        ]
+
+        actions = answers + views + logins
+        actions.sort()
+
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = f'attachment; filename="{competitor.full_name} actions.csv"'
+        writer = csv.writer(response)
+
+        for action_time, str_list in actions:
+            writer.writerow(str_list)
+
+        return response
 
 
 @admin.register(Answer)
