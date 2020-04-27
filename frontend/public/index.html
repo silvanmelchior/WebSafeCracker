@@ -8,6 +8,13 @@
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
+    <script>
+      var ua = window.navigator.userAgent;
+      var msie = ua.indexOf("MSIE ");
+      if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+        alert('Internet Explorer is NOT supported. Please use Google Chrome.');
+      }
+    </script>
     <div id="root"></div>
   </body>
 </html>
