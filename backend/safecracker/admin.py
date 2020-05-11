@@ -14,8 +14,6 @@ from django.utils.dateparse import parse_datetime
 from .models import Setting, Competitor, Task, TaskView, Answer, Attachment
 
 
-admin.site.register(Setting)
-admin.site.register(Task)
 admin.site.register(TaskView)
 admin.site.register(Attachment)
 
@@ -26,6 +24,18 @@ class CsvImportForm(forms.Form):
 
 def datetime_to_str(datetime):
     return datetime.astimezone(pytz.timezone(settings.TIME_ZONE)).strftime('%Y-%m-%d %H:%M:%S')
+
+
+@admin.register(Task)
+class TaskAdmin(admin.ModelAdmin):
+
+    ordering = ('nr',)
+
+
+@admin.register(Setting)
+class SettingAdmin(admin.ModelAdmin):
+
+    ordering = ('key',)
 
 
 @admin.register(Competitor)
