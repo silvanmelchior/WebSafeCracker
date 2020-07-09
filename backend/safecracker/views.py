@@ -115,6 +115,27 @@ def task_list(request):
     return HttpResponse(json.dumps({'tasks': tasks_list, 'points': float(points)}))
 
 
+def task_list_demo_mode(request):
+    if not settings.DEMO_MODE:
+        raise PermissionDenied
+
+    tasks = Task.objects.filter(enabled=True).order_by('nr')
+    fail_penalty = Setting.objects.get(key='fail_penalty').value_dec
+    tasks_list = []
+    for task in tasks:
+        tasks_list.append({
+            'pk': task.pk,
+            'nr': task.nr,
+            'title': task.title,
+            'description': task.description,
+            'points': float(task.points),
+            'code': task.code,
+            'media_url': settings.MEDIA_URL
+        })
+    return HttpResponse(json.dumps({'tasks': tasks_list, 'fail_penalty': float(fail_penalty)}),
+                        content_type='text/json')
+
+
 def task_get(request, task_id):
     competitor = _get_competitor_get(request)
     task = get_object_or_404(Task, pk=task_id, enabled=True)

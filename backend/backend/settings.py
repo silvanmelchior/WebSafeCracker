@@ -119,3 +119,8 @@ CKEDITOR_CONFIGS = {
         'allowedContent': True
     }
 }
+
+
+# SafeCracker Demo Mode
+
+DEMO_MODE = False
