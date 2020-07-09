@@ -4,6 +4,7 @@ import logo from './logo.png'
 
 
 function remaining_time(t) {
+  if(t === null) return 'unlimited';
   let mins = Math.ceil(t/60);
   if (mins === 1) return '1 minute';
   else return mins + ' minutes';

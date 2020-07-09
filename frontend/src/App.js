@@ -19,18 +19,28 @@ class App extends React.Component {
   };
 
   handleLoginCodeSubmit = (event) => {
-    this.setState(state => ({login_status: 'loading', login_code: state.login_code}));
-    this.login().then(response => {
-      if(response.data.status === 'ok') {
-        this.updateLoginState(response);
-        setInterval(() => {this.login().then(this.updateLoginState)}, 10000);
-        setInterval(this.tick, 1000);
-      }
-      else {
-        this.setState({login_status: response.data.status, login_code: ''});
-      }
-    });
-    event.preventDefault();
+    let demo_mode = process.env.REACT_APP_DEMO_MODE !== undefined;
+    if(demo_mode) {
+      this.setState({
+        login_status: 'ok',
+        competitor_name: 'Demo User',
+        remaining_time: null
+      })
+    }
+    else {
+      this.setState(state => ({login_status: 'loading', login_code: state.login_code}));
+      this.login().then(response => {
+        if(response.data.status === 'ok') {
+          this.updateLoginState(response);
+          setInterval(() => {this.login().then(this.updateLoginState)}, 10000);
+          setInterval(this.tick, 1000);
+        }
+        else {
+          this.setState({login_status: response.data.status, login_code: ''});
+        }
+      });
+      event.preventDefault();
+    }
   };
 
   login = () => {
