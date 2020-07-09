@@ -43,11 +43,28 @@ class SafeCracker extends React.Component {
   };
 
   handleTaskSelect = (task_pk) => {
-    this.setState({selected_task_pk: 'loading', selected_task: null, code: ''});
-    axios.get('/api/task/' + task_pk, {params: {cc: this.props.cc}}).then(response => this.setState({
-      selected_task_pk: task_pk,
-      selected_task: response.data
-    }));
+    let demo_mode = process.env.REACT_APP_DEMO_MODE !== undefined;
+    if(demo_mode) {
+      let task_idx = 0;
+      for(let i=1; i<this.state.tasks.length; i++) {
+        if(this.state.tasks[i]['pk'] === task_pk) {
+          task_idx = i;
+          break;
+        }
+      }
+      this.setState({
+        selected_task_pk: task_pk,
+        selected_task: this.state.tasks[task_idx],
+        code: ''
+      });
+    }
+    else {
+      this.setState({selected_task_pk: 'loading', selected_task: null, code: ''});
+      axios.get('/api/task/' + task_pk, {params: {cc: this.props.cc}}).then(response => this.setState({
+        selected_task_pk: task_pk,
+        selected_task: response.data
+      }));
+    }
   };
 
   handleCodeChange = (event) => {
