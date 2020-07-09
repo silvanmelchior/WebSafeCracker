@@ -39,8 +39,8 @@ class App extends React.Component {
           this.setState({login_status: response.data.status, login_code: ''});
         }
       });
-      event.preventDefault();
     }
+    event.preventDefault();
   };
 
   login = () => {

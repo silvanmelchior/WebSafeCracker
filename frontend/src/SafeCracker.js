@@ -26,7 +26,13 @@ class SafeCracker extends React.Component {
   }
 
   loadTasks = () => {
-    axios.get('/api/task', {params: {cc: this.props.cc}}).then(this.loadTasksDone);
+    let demo_mode = process.env.REACT_APP_DEMO_MODE !== undefined;
+    if(demo_mode) {
+      axios.get('/api/task_demo.json').then(this.loadTasksDone);
+    }
+    else {
+      axios.get('/api/task', {params: {cc: this.props.cc}}).then(this.loadTasksDone);
+    }
   };
 
   loadTasksDone = (response) => {

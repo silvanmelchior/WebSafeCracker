@@ -130,10 +130,14 @@ def task_list_demo_mode(request):
             'description': task.description,
             'points': float(task.points),
             'code': task.code,
+            'state': 'open',
             'media_url': settings.MEDIA_URL
         })
-    return HttpResponse(json.dumps({'tasks': tasks_list, 'fail_penalty': float(fail_penalty)}),
-                        content_type='text/json')
+    return HttpResponse(json.dumps({
+        'tasks': tasks_list,
+        'fail_penalty': float(fail_penalty),
+        'points': 0.0
+    }), content_type='text/json')
 
 
 def task_get(request, task_id):
