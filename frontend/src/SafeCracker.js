@@ -36,25 +36,31 @@ class SafeCracker extends React.Component {
   };
 
   loadTasksDone = (response) => {
+    let demo_mode = process.env.REACT_APP_DEMO_MODE !== undefined;
     this.setState({
       points: response.data.points,
       tasks: response.data.tasks
     });
+    if(demo_mode) {
+      this.setState({fail_penalty: response.data.fail_penalty})
+    }
+  };
+
+  taskPkToIdx = (task_pk) => {
+    for(let i=0; i<this.state.tasks.length; i++) {
+      if(this.state.tasks[i]['pk'] === task_pk) {
+        return i;
+      }
+    }
+    return null;
   };
 
   handleTaskSelect = (task_pk) => {
     let demo_mode = process.env.REACT_APP_DEMO_MODE !== undefined;
     if(demo_mode) {
-      let task_idx = 0;
-      for(let i=1; i<this.state.tasks.length; i++) {
-        if(this.state.tasks[i]['pk'] === task_pk) {
-          task_idx = i;
-          break;
-        }
-      }
       this.setState({
         selected_task_pk: task_pk,
-        selected_task: this.state.tasks[task_idx],
+        selected_task: this.state.tasks[this.taskPkToIdx(task_pk)],
         code: ''
       });
     }
@@ -75,9 +81,41 @@ class SafeCracker extends React.Component {
   };
 
   handleCodeSubmit = () => {
-    this.setState({code_feedback: 'loading'});
-    axios.post('/api/task/' + this.state.selected_task_pk + '/enter_code',
-      {cc: this.props.cc, code: this.state.code}).then(this.handleCodeSubmitDone)
+    let demo_mode = process.env.REACT_APP_DEMO_MODE !== undefined;
+    if(demo_mode) {
+      let task_id = this.taskPkToIdx(this.state.selected_task_pk);
+      let feedback = 'open';
+      let point_diff = 0;
+      if(this.state.code === this.state.selected_task.code) {
+        feedback = 'solved';
+        point_diff = this.state.selected_task.points;
+      }
+      else {
+        if(this.state.selected_task.state === 'second chance') {
+          feedback = 'blocked';
+          point_diff = -this.state.fail_penalty;
+        }
+        else {
+          feedback = 'second chance';
+        }
+      }
+      let task = this.state.tasks[task_id];
+      task = {...task, state: feedback};
+      let tasks = [...this.state.tasks];
+      tasks[task_id] = task;
+      this.setState({
+        points: this.state.points + point_diff,
+        tasks: tasks,
+        selected_task: task,
+        code: '',
+        code_feedback: feedback
+      });
+    }
+    else {
+      this.setState({code_feedback: 'loading'});
+      axios.post('/api/task/' + this.state.selected_task_pk + '/enter_code',
+        {cc: this.props.cc, code: this.state.code}).then(this.handleCodeSubmitDone)
+    }
   };
 
   handleCodeSubmitDone = (response) => {
