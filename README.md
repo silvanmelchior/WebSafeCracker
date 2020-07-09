@@ -136,3 +136,14 @@ DB_PASSWORD | postgresql db password
 STORAGE_ACCOUNT_NAME | azure storage account name
 STORAGE_ACCOUNT_KEY | azure storage account key
 MEDIA_URL | azure storage account public URL
+
+## Demo Mode
+
+For non-competitive settings, there is a demo-mode available.
+It does not need a backend because all the code- and point-logic is implemented in the frontend
+In this mode, the solution codes are exposed to the client, so it should not be used in a competitive setting.
+To setup the demo mode, build the frontend with the `REACT_APP_DEMO_MODE` environment variable set to true.
+The build-folder can then be served statically.
+All it needs is a json-file _/api/task_demo.json_ which contains the description of the tasks and its linked media files (images, graphs, ...) in _/media_.
+The json-file can be generated from the backend (using the same URL) if desired.
+To do so, the `DEMO_MODE` setting in the settings-file has to be set to true.
